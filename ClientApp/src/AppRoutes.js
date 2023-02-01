@@ -10,7 +10,7 @@ import { ShowPage } from"./components/Web/ShowPage";
 import { Payment } from"./components/Web/Payment";
 import { Admin } from"./components/Web/Admin";
 import { LoginPage } from"./components/api-authorization/LoginPage";
-
+import { RegisterPage } from"./components/api-authorization/RegisterPage";
 
 const AppRoutes = [
   
@@ -60,6 +60,10 @@ const AppRoutes = [
   {
     path: '/LoginPage',
     element: <LoginPage />
+  },
+  {
+    path: '/RegisterPage',
+    element: <RegisterPage />
   },
 ];
 

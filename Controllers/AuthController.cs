@@ -52,30 +52,9 @@ public class AuthController : ControllerBase
 
     [HttpPost]
     [Route("registreer")]
-    public async Task<ActionResult<IdentityUser>> Registreer([FromBody] ApplicationUser gebruikerRegistreer)
+    public async Task<ActionResult<IEnumerable<Vak>>> Registreer([FromBody] ApplicationUser gebruikerMetWachwoord)
     {
-        //check if email domain is in Services/emailDenyList.txt
-        var emailDenyList = System.IO.File.ReadAllLines("Services/emailDenyList.txt");
-        string gebruikerDomain = gebruikerRegistreer.Email.Split('@')[1];
-        if (emailDenyList.Contains(gebruikerDomain))
-        {
-            return BadRequest("Email domain is not allowed");
-        }
-
-        var gebruiker = new ApplicationUser
-        {
-            UserName = gebruikerRegistreer.Email,
-            Email = gebruikerRegistreer.Email,
-        };
-        var resultaat = await _userManager.CreateAsync(gebruiker, gebruikerRegistreer.Password);
-
-        if (resultaat.Succeeded)
-        {
-            await _userManager.AddToRoleAsync(gebruiker, "Gebruiker");
-
-            return StatusCode(201);
-        }
-
+        var resultaat = await _userManager.CreateAsync(gebruikerMetWachwoord, gebruikerMetWachwoord.Password);
         return !resultaat.Succeeded ? new BadRequestObjectResult(resultaat) : StatusCode(201);
     }
 

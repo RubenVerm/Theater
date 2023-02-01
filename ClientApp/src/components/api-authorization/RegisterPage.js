@@ -1,23 +1,31 @@
 import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate  } from "react-router-dom";
 
-export const LoginPage = () => {
+export const RegisterPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      const response = await axios.post("https://localhost:7000/api/auth/login", {
-        username,
-        password
+      const response = await fetch("https://localhost:7000/api/Auth/registreer", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          username,
+          password
+        })
       });
 
-      localStorage.setItem("token", response.data.token);
-      navigate("/");
+      if (!response.ok) {
+        throw new Error("Login failed");
+      }
+
+      const { token } = await response.json();
+      localStorage.setItem("token", token);
+      console.log("Login successful");
     } catch (error) {
       console.error(error);
     }
