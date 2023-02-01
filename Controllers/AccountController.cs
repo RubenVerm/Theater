@@ -1,60 +1,103 @@
-
-using System.ComponentModel.DataAnnotations;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 
-
-[Route("api/[controller]")]
 [ApiController]
+[Route("api/[controller]")]
 public class AccountController : ControllerBase
 {
     private readonly UserManager<IdentityUser> _userManager;
+    private readonly RoleManager<IdentityRole> _roleManager;
 
-    public AccountController(UserManager<IdentityUser> userManager)
+
+    public AccountController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
     {
         _userManager = userManager;
+        _roleManager = roleManager;
     }
 
-    [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] ApplicationUser gebruikerLogin)
+    [HttpGet]
+    public async Task<IActionResult> GetUsers()
     {
-        var _user = await _userManager.FindByNameAsync(gebruikerLogin.UserName);
-        if (_user != null)
-            if (await _userManager.CheckPasswordAsync(_user, gebruikerLogin.Password))
-            {
-                var secret = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("awef98awef978haweof8g7aw789efhh789awef8h9awh89efh89awe98f89uawef9j8aw89hefawef"));
+        var users = _userManager.Users.ToList();
+        return Ok(users);
+    }
 
-                var signingCredentials = new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
-                var claims = new List<Claim> { new Claim(ClaimTypes.Name, _user.UserName) };
-                var roles = await _userManager.GetRolesAsync(_user);
-                foreach (var role in roles)
-                    claims.Add(new Claim(ClaimTypes.Role, role));
-                var tokenOptions = new JwtSecurityToken
-                (
-                    issuer: "https://localhost:7000",
-                    audience: "https://localhost:7000",
-                    claims: claims,
-                    expires: DateTime.Now.AddMinutes(10),
-                    signingCredentials: signingCredentials
-                );
-                return Ok(new { Token = new JwtSecurityTokenHandler().WriteToken(tokenOptions) });
-            }
+    [HttpGet]
+    [Route("{userId}")]
+    public async Task<ActionResult<List<IdentityUser>>> SearchUser([FromRoute] string userId)
+    {
+        var user = await _userManager.FindByIdAsync(userId);
 
-        return Unauthorized();
+        if (user == null)
+        {
+            Console.WriteLine("User not found");
+            return NotFound();
+        }
+        return Ok(user);
+    }
+
+    [HttpGet]
+    [Route("{userId}/rol")]
+    public async Task<ActionResult<List<IdentityUser>>> UserRol([FromRoute] string userId)
+    {
+        var user = await _userManager.FindByIdAsync(userId);
+
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        var rol = await _userManager.GetRolesAsync(user);
+        return Ok(rol);
     }
 
 
     [HttpPost]
-    [Route("registreer")]
-    public async Task<ActionResult<IEnumerable<Show>>> Registreer([FromBody] ApplicationUser gebruikerMetWachwoord)
+    public async Task<IActionResult> Create([FromBody] createUser gebruiker)
     {
-        var resultaat = await _userManager.CreateAsync(gebruikerMetWachwoord, gebruikerMetWachwoord.Password);
-        return !resultaat.Succeeded ? new BadRequestObjectResult(resultaat) : StatusCode(201);
+        var user = new IdentityUser { UserName = gebruiker.Email, Email = gebruiker.Email};
+        var result = await _userManager.CreateAsync(user);
+
+        if (result.Succeeded)
+        {
+            if (!await _roleManager.RoleExistsAsync(gebruiker.Rol))
+            {
+                var role = new IdentityRole(gebruiker.Rol);
+                await _roleManager.CreateAsync(role);
+            }
+
+            await _userManager.AddToRoleAsync(user, gebruiker.Rol);
+            return Ok();
+        }
+        else
+        {
+            return BadRequest(result.Errors);
+        }
     }
 
-    
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(string id)
+    {
+        var user = await _userManager.FindByIdAsync(id);
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        var result = await _userManager.DeleteAsync(user);
+        if (result.Succeeded)
+        {
+            return Ok();
+        }
+        else
+        {
+            return BadRequest(result.Errors);
+        }
+    }
+
+}
+public class createUser{
+    public string Rol {get; set;}
+    public string Email { get; set; }
 }

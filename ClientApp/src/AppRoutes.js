@@ -1,4 +1,3 @@
-import ApiAuthorzationRoutes from './components/api-authorization/ApiAuthorizationRoutes';
 import { Home } from "./components/Web/Home";
 import { Agenda } from "./components/Web/Agenda";
 import { Huren } from "./components/Web/Huren";
@@ -21,22 +20,18 @@ const AppRoutes = [
   },
   {
     path: '/Agenda',
-    requireAuth: true,
     element: <Agenda />
   },
   {
     path: '/Tickets',
-    requireAuth: true,
     element: <Tickets />
   },
   {
     path: '/Huren',
-    requireAuth: true,
     element: <Huren />
   },
   {
     path: '/Doneer',
-    requireAuth: true,
     element: <Doneer />
   },
   {
@@ -49,29 +44,23 @@ const AppRoutes = [
   },
   {
     path: '/MijnLaak',
-    requireAuth: true,
     element: <MijnLaak />
   },
   {
     path: '/show/:id',
-    requireAuth: true,
     element: <ShowPage />
   },{
     path: '/Payment',
-    requireAuth: true,
     element: <Payment />
   },
   {
     path: '/Admin',
-    requireAuth: true,
     element: <Admin />
   },
   {
     path: '/LoginPage',
-    requireAuth: true,
     element: <LoginPage />
   },
-  ...ApiAuthorzationRoutes
 ];
 
 export default AppRoutes;
