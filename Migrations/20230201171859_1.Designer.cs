@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Theater.Migrations
 {
     [DbContext(typeof(TheaterContext))]
-    [Migration("20230201165816_1")]
+    [Migration("20230201171859_1")]
     partial class _1
     {
         /// <inheritdoc />

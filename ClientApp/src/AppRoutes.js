@@ -10,6 +10,9 @@ import { MijnLaak } from"./components/Web/MijnLaak";
 import { ShowPage } from"./components/Web/ShowPage";
 import { Payment } from"./components/Web/Payment";
 import { Admin } from"./components/Web/Admin";
+import { LoginPage } from"./components/api-authorization/LoginPage";
+
+
 const AppRoutes = [
   
   {
@@ -62,6 +65,11 @@ const AppRoutes = [
     path: '/Admin',
     requireAuth: true,
     element: <Admin />
+  },
+  {
+    path: '/LoginPage',
+    requireAuth: true,
+    element: <LoginPage />
   },
   ...ApiAuthorzationRoutes
 ];

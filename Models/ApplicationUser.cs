@@ -5,8 +5,8 @@ public class ApplicationUser : IdentityUser
 {
     public string Password { get; init; }
 
-    public ICollection<Ticket> Tickets { get; set; }
-    public ICollection<Order> Orders { get; set; }
+    public ICollection<Ticket>? Tickets { get; set; }
+    public ICollection<Order>? Orders { get; set; }
 }
 
 public class ApplicationUserLogin
