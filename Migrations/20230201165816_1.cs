@@ -12,7 +12,7 @@ namespace Theater.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Actor",
+                name: "Actors",
                 columns: table => new
                 {
                     ActorId = table.Column<int>(type: "INTEGER", nullable: false)
@@ -22,7 +22,7 @@ namespace Theater.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Actor", x => x.ActorId);
+                    table.PrimaryKey("PK_Actors", x => x.ActorId);
                 });
 
             migrationBuilder.CreateTable(
@@ -67,7 +67,7 @@ namespace Theater.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Band",
+                name: "Bands",
                 columns: table => new
                 {
                     BandId = table.Column<int>(type: "INTEGER", nullable: false)
@@ -77,11 +77,11 @@ namespace Theater.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Band", x => x.BandId);
+                    table.PrimaryKey("PK_Bands", x => x.BandId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Hall",
+                name: "Halls",
                 columns: table => new
                 {
                     HallId = table.Column<int>(type: "INTEGER", nullable: false)
@@ -93,11 +93,11 @@ namespace Theater.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Hall", x => x.HallId);
+                    table.PrimaryKey("PK_Halls", x => x.HallId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Room",
+                name: "Rooms",
                 columns: table => new
                 {
                     RoomId = table.Column<int>(type: "INTEGER", nullable: false)
@@ -107,7 +107,7 @@ namespace Theater.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Room", x => x.RoomId);
+                    table.PrimaryKey("PK_Rooms", x => x.RoomId);
                 });
 
             migrationBuilder.CreateTable(
@@ -230,7 +230,7 @@ namespace Theater.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Order",
+                name: "Orders",
                 columns: table => new
                 {
                     OrderId = table.Column<int>(type: "INTEGER", nullable: false)
@@ -241,16 +241,16 @@ namespace Theater.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Order", x => x.OrderId);
+                    table.PrimaryKey("PK_Orders", x => x.OrderId);
                     table.ForeignKey(
-                        name: "FK_Order_AspNetUsers_CustomerId",
+                        name: "FK_Orders_AspNetUsers_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "BandMember",
+                name: "BandMembers",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -261,17 +261,17 @@ namespace Theater.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BandMember", x => x.Id);
+                    table.PrimaryKey("PK_BandMembers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_BandMember_Band_BandId",
+                        name: "FK_BandMembers_Bands_BandId",
                         column: x => x.BandId,
-                        principalTable: "Band",
+                        principalTable: "Bands",
                         principalColumn: "BandId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Show",
+                name: "Shows",
                 columns: table => new
                 {
                     ShowId = table.Column<int>(type: "INTEGER", nullable: false)
@@ -287,31 +287,31 @@ namespace Theater.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Show", x => x.ShowId);
+                    table.PrimaryKey("PK_Shows", x => x.ShowId);
                     table.ForeignKey(
-                        name: "FK_Show_Actor_ActorId",
+                        name: "FK_Shows_Actors_ActorId",
                         column: x => x.ActorId,
-                        principalTable: "Actor",
+                        principalTable: "Actors",
                         principalColumn: "ActorId");
                     table.ForeignKey(
-                        name: "FK_Show_Band_BandId",
+                        name: "FK_Shows_Bands_BandId",
                         column: x => x.BandId,
-                        principalTable: "Band",
+                        principalTable: "Bands",
                         principalColumn: "BandId");
                     table.ForeignKey(
-                        name: "FK_Show_Hall_HallId",
+                        name: "FK_Shows_Halls_HallId",
                         column: x => x.HallId,
-                        principalTable: "Hall",
+                        principalTable: "Halls",
                         principalColumn: "HallId");
                     table.ForeignKey(
-                        name: "FK_Show_Room_RoomId",
+                        name: "FK_Shows_Rooms_RoomId",
                         column: x => x.RoomId,
-                        principalTable: "Room",
+                        principalTable: "Rooms",
                         principalColumn: "RoomId");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Ticket",
+                name: "Tickets",
                 columns: table => new
                 {
                     TicketId = table.Column<int>(type: "INTEGER", nullable: false)
@@ -326,31 +326,31 @@ namespace Theater.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Ticket", x => x.TicketId);
+                    table.PrimaryKey("PK_Tickets", x => x.TicketId);
                     table.ForeignKey(
-                        name: "FK_Ticket_AspNetUsers_CustomerId",
+                        name: "FK_Tickets_AspNetUsers_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Ticket_Hall_HallId",
+                        name: "FK_Tickets_Halls_HallId",
                         column: x => x.HallId,
-                        principalTable: "Hall",
+                        principalTable: "Halls",
                         principalColumn: "HallId");
                     table.ForeignKey(
-                        name: "FK_Ticket_Order_OrderId",
+                        name: "FK_Tickets_Orders_OrderId",
                         column: x => x.OrderId,
-                        principalTable: "Order",
+                        principalTable: "Orders",
                         principalColumn: "OrderId");
                     table.ForeignKey(
-                        name: "FK_Ticket_Room_RoomId",
+                        name: "FK_Tickets_Rooms_RoomId",
                         column: x => x.RoomId,
-                        principalTable: "Room",
+                        principalTable: "Rooms",
                         principalColumn: "RoomId");
                     table.ForeignKey(
-                        name: "FK_Ticket_Show_ShowId",
+                        name: "FK_Tickets_Shows_ShowId",
                         column: x => x.ShowId,
-                        principalTable: "Show",
+                        principalTable: "Shows",
                         principalColumn: "ShowId");
                 });
 
@@ -392,58 +392,58 @@ namespace Theater.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_BandMember_BandId",
-                table: "BandMember",
+                name: "IX_BandMembers_BandId",
+                table: "BandMembers",
                 column: "BandId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Order_CustomerId",
-                table: "Order",
+                name: "IX_Orders_CustomerId",
+                table: "Orders",
                 column: "CustomerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Show_ActorId",
-                table: "Show",
+                name: "IX_Shows_ActorId",
+                table: "Shows",
                 column: "ActorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Show_BandId",
-                table: "Show",
+                name: "IX_Shows_BandId",
+                table: "Shows",
                 column: "BandId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Show_HallId",
-                table: "Show",
+                name: "IX_Shows_HallId",
+                table: "Shows",
                 column: "HallId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Show_RoomId",
-                table: "Show",
+                name: "IX_Shows_RoomId",
+                table: "Shows",
                 column: "RoomId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Ticket_CustomerId",
-                table: "Ticket",
+                name: "IX_Tickets_CustomerId",
+                table: "Tickets",
                 column: "CustomerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Ticket_HallId",
-                table: "Ticket",
+                name: "IX_Tickets_HallId",
+                table: "Tickets",
                 column: "HallId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Ticket_OrderId",
-                table: "Ticket",
+                name: "IX_Tickets_OrderId",
+                table: "Tickets",
                 column: "OrderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Ticket_RoomId",
-                table: "Ticket",
+                name: "IX_Tickets_RoomId",
+                table: "Tickets",
                 column: "RoomId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Ticket_ShowId",
-                table: "Ticket",
+                name: "IX_Tickets_ShowId",
+                table: "Tickets",
                 column: "ShowId");
         }
 
@@ -466,10 +466,10 @@ namespace Theater.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "BandMember");
+                name: "BandMembers");
 
             migrationBuilder.DropTable(
-                name: "Ticket");
+                name: "Tickets");
 
             migrationBuilder.DropTable(
                 name: "Vak");
@@ -478,25 +478,25 @@ namespace Theater.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Order");
+                name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "Show");
+                name: "Shows");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Actor");
+                name: "Actors");
 
             migrationBuilder.DropTable(
-                name: "Band");
+                name: "Bands");
 
             migrationBuilder.DropTable(
-                name: "Hall");
+                name: "Halls");
 
             migrationBuilder.DropTable(
-                name: "Room");
+                name: "Rooms");
         }
     }
 }

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Theater.Migrations
 {
     [DbContext(typeof(TheaterContext))]
-    [Migration("20230201161938_1")]
+    [Migration("20230201165816_1")]
     partial class _1
     {
         /// <inheritdoc />
@@ -35,7 +35,7 @@ namespace Theater.Migrations
 
                     b.HasKey("ActorId");
 
-                    b.ToTable("Actor");
+                    b.ToTable("Actors");
                 });
 
             modelBuilder.Entity("Band", b =>
@@ -54,7 +54,7 @@ namespace Theater.Migrations
 
                     b.HasKey("BandId");
 
-                    b.ToTable("Band");
+                    b.ToTable("Bands");
                 });
 
             modelBuilder.Entity("BandMember", b =>
@@ -79,7 +79,7 @@ namespace Theater.Migrations
 
                     b.HasIndex("BandId");
 
-                    b.ToTable("BandMember");
+                    b.ToTable("BandMembers");
                 });
 
             modelBuilder.Entity("Hall", b =>
@@ -103,7 +103,7 @@ namespace Theater.Migrations
 
                     b.HasKey("HallId");
 
-                    b.ToTable("Hall");
+                    b.ToTable("Halls");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -327,7 +327,7 @@ namespace Theater.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Order");
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("Room", b =>
@@ -345,7 +345,7 @@ namespace Theater.Migrations
 
                     b.HasKey("RoomId");
 
-                    b.ToTable("Room");
+                    b.ToTable("Rooms");
                 });
 
             modelBuilder.Entity("Show", b =>
@@ -390,7 +390,7 @@ namespace Theater.Migrations
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("Show");
+                    b.ToTable("Shows");
                 });
 
             modelBuilder.Entity("Ticket", b =>
@@ -434,7 +434,7 @@ namespace Theater.Migrations
 
                     b.HasIndex("ShowId");
 
-                    b.ToTable("Ticket");
+                    b.ToTable("Tickets");
                 });
 
             modelBuilder.Entity("Vak", b =>

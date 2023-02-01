@@ -11,7 +11,15 @@ public class TheaterContext : IdentityDbContext
         : base(options)
     {
     }
-
+// items
+        public DbSet<Actor> Actors { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<Hall> Halls { get; set; }
+        public DbSet<Room> Rooms { get; set; }
+        public DbSet<Band> Bands { get; set; }
+        public DbSet<BandMember> BandMembers { get; set; }
+        public DbSet<Show> Shows { get; set; }
     public DbSet<Vak> Vak { get; set; } = default!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -5,8 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ORM;
-using Project2.Data;
+
 using Microsoft.AspNetCore.Authorization;
 namespace MyApp.Controllers
 {
