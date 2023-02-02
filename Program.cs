@@ -12,6 +12,7 @@ builder.Services.AddDbContext<TheaterContext>(options =>
 // Add services to the container.
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<TheaterContext>()
+                .AddRoles<IdentityRole>()
                 .AddDefaultTokenProviders();
 builder.Services.AddAuthentication();
 
