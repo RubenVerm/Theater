@@ -12,7 +12,7 @@ export class Huren extends Component {
 
   componentDidMount() {
     axios
-      .get("https://localhost:7113/api/Show")
+      .get("https://localhost:7000/api/Show")
       .then((res) => this.setState({ shows: res.data }))
       .catch((err) => console.log(err));
   }

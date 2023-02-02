@@ -10,7 +10,7 @@ export class Tickets extends React.Component {
 }
   
   componentDidMount() {
-    fetch("https://localhost:7113/api/Show")
+    fetch("https://localhost:7000/api/Show")
     .then(res => res.json())
     .then(
         (halls) => {

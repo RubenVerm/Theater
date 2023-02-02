@@ -12,6 +12,7 @@ export class Layout extends Component {
         <NavMenu />
         <Container fluid tag="main">
           {this.props.children}
+          
         </Container>
       </div>
     );

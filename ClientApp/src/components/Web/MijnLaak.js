@@ -14,7 +14,7 @@ export class MijnLaak extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    axios.post('https://localhost:7113/api/login', {
+    axios.post('https://localhost:7000/api/login', {
         email: this.state.email,
         password: this.state.password
     })

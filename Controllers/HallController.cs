@@ -58,7 +58,6 @@ namespace MyApp.Controllers
 
         // PUT: api/Hall/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutHall(int id, Hall hall)
         {
@@ -90,7 +89,6 @@ namespace MyApp.Controllers
 
         // POST: api/Hall
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [Authorize]
         [HttpPost]
         public async Task<ActionResult<Hall>> PostHall(Hall hall)
         {
@@ -105,7 +103,6 @@ namespace MyApp.Controllers
         }
 
         // DELETE: api/Hall/5
-        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteHall(int id)
         {

@@ -10,7 +10,7 @@ export class Contact extends React.Component {
 }
   
   componentDidMount() {
-    fetch("https://localhost:7113/api/band")
+    fetch("https://localhost:7000/api/band")
     .then(res => res.json())
     .then(
         (bands) => {

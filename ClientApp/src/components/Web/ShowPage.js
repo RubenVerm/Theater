@@ -32,10 +32,10 @@ export function ShowPage() {
   const navigate = useNavigate ();
 
   useEffect(() => {
-    axios.get(`https://localhost:7113/api/show/${showId}`)
+    axios.get(`https://localhost:7000/api/show/${showId}`)
       .then(res => {
         const show = res.data;
-        return axios.get(`https://localhost:7113/api/hall/${show.hallId}`);
+        return axios.get(`https://localhost:7000/api/hall/${show.hallId}`);
       })
       .then(res => {
         const hall = res.data;

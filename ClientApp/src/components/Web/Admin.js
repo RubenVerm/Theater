@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 export const Admin = () => {
@@ -26,7 +26,7 @@ export const Admin = () => {
     };
 
     try {
-      const response = await fetch("https://localhost:7113/api/show", {
+      const response = await fetch("https://localhost:7000/api/show", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -94,107 +94,131 @@ export const Admin = () => {
       />
       <button type="submit">Create Show</button>
     </form>
-    <HallList />
+    <HallsPage />
     </div>
   );
 };
 
 
 
-const HallList = () => {
+const HallsPage = () => {
   const [halls, setHalls] = useState([]);
-  const [selectedHall, setSelectedHall] = useState({});
+  const [selectedHall, setSelectedHall] = useState(null);
+  const [name, setName] = useState("");
+  const [firstClassSeats, setFirstClassSeats] = useState("");
+  const [secondClassSeats, setSecondClassSeats] = useState("");
+  const [thirdClassSeats, setThirdClassSeats] = useState("");
 
   useEffect(() => {
-    axios
-      .get("https://localhost:7113/api/hall")
-      .then(res => setHalls(res.data))
-      .catch(err => console.error(err));
+    const fetchHalls = async () => {
+      const response = await fetch("https://localhost:7000/api/hall");
+      const data = await response.json();
+      setHalls(data);
+    };
+
+    fetchHalls();
   }, []);
 
-  const handleEdit = hall => {
+  const handleRowClick = (hall) => {
     setSelectedHall(hall);
+    setName(hall.name);
+    setFirstClassSeats(hall.firstClassSeats);
+    setSecondClassSeats(hall.secondClassSeats);
+    setThirdClassSeats(hall.thirdClassSeats);
   };
 
-  const handleSave = hall => {
-    axios
-      .put(`https://localhost:7113/api/hall/${hall.hallId}`, {
-        name: hall.name,
-        firstClassSeats: hall.firstClassSeats,
-        secondClassSeats: hall.secondClassSeats,
-        thirdClassSeats: hall.thirdClassSeats
-      })
-      .then(res => {
-        setHalls(
-          halls.map(h =>
-            h.hallId === res.data.hallId ? res.data : h
-          )
-        );
-        setSelectedHall({});
-      })
-      .catch(err => console.error(err));
+  const handleUpdate = async () => {
+    const updatedHall = {
+      hallId: selectedHall.hallId,
+      name,
+      firstClassSeats,
+      secondClassSeats,
+      thirdClassSeats,
+    };
+
+    const response = await fetch(`https://localhost:7000/api/hall/${selectedHall.hallId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedHall),
+    });
+
+    if (response.ok) {
+      setHalls(
+        halls.map((hall) => {
+          if (hall.hallId === selectedHall.hallId) {
+            return updatedHall;
+          }
+          return hall;
+        })
+      );
+    }
   };
-}
-  // return (
-  //   <>
-  //     <table>
-  //       <thead>
-  //         <tr>
-  //           <th>Hall Name</th>
-  //           <th>First Class Seats</th>
-  //           <th>Second Class Seats</th>
-  //           <th>Third Class Seats</th>
-  //           <th>Actions</th>
-  //         </tr>
-  //       </thead>
-  //       <tbody>
-  //         {halls.map(hall => (
-  //           <tr key={hall.hallId}>
-  //             <td>
-  //               {selectedHall.hallId === hall.hallId ? (
-  //                 <input
-  //                   type="text"
-  //                   value={selectedHall.name}
-  //                   onChange={e =>
-  //                     setSelectedHall({
-  //                       ...selectedHall,
-  //                       name: e.target.value
-  //                     })
-  //                   }
-  //                 />
-  //               ) : (
-  //                 hall.name
-  //               )}
-  //             </td>
-  //             <td>
-  //               {selectedHall.hallId === hall.hallId ? (
-  //                 <input
-  //                   type="number"
-  //                   value={selectedHall.firstClassSeats}
-  //                   onChange={e =>
-  //                     setSelectedHall({
-  //                       ...selectedHall,
-  //                       firstClassSeats: e.target.value
-  //                     })
-  //                   }
-  //                 />
-  //               ) : (
-  //                 hall.firstClassSeats
-  //               )}
-  //             </td>
-  //             <td>
-  //               {selectedHall.hallId === hall.hallId ? (
-  //                 <input
-  //                   type="number"
-  //                   value={selectedHall.secondClassSeats}
-  //                   onChange={e =>
-  //                     setSelectedHall({
-  //                       ...selectedHall,
-  //                       secondClassSeats: e.target.value
-  //                     })
-  //                   }
-  //                 />
-  //               ) : (
-  //                 hall.secondClassSeats
-  //               )}
-  //             </td>
+
+  return (
+    <>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>First Class Seats</th>
+            <th>Second Class Seats</th>
+            <th>Third Class Seats</th>
+          </tr>
+        </thead>
+        <tbody>
+          {halls.map((hall) => (
+            <tr key={hall.hallId} onClick={() => handleRowClick(hall)}>
+              <td>{hall.hallId}</td>
+              <td>{hall.name}</td>
+              <td>{hall.firstClassSeats}</td>
+              <td>{hall.secondClassSeats}</td>
+              <td>{hall.thirdClassSeats}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      {selectedHall && (
+        <>
+          <div>
+            <label htmlFor="name">Name:</label>
+            <input
+              type="text"
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              />
+              </div>
+              <div>
+              <label htmlFor="firstClassSeats">First Class Seats:</label>
+              <input
+              type="text"
+              id="firstClassSeats"
+              value={firstClassSeats}
+              onChange={(e) => setFirstClassSeats(e.target.value)}
+              />
+              </div>
+              <div>
+              <label htmlFor="secondClassSeats">Second Class Seats:</label>
+              <input
+              type="text"
+              id="secondClassSeats"
+              value={secondClassSeats}
+              onChange={(e) => setSecondClassSeats(e.target.value)}
+              />
+              </div>
+              <div>
+              <label htmlFor="thirdClassSeats">Third Class Seats:</label>
+              <input
+              type="text"
+              id="thirdClassSeats"
+              value={thirdClassSeats}
+              onChange={(e) => setThirdClassSeats(e.target.value)}
+              />
+              </div>
+              <button onClick={handleUpdate}>Update</button>
+              </>
+              )}
+              </>
+              );
+              };

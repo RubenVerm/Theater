@@ -9,8 +9,9 @@ import { MijnLaak } from"./components/Web/MijnLaak";
 import { ShowPage } from"./components/Web/ShowPage";
 import { Payment } from"./components/Web/Payment";
 import { Admin } from"./components/Web/Admin";
-import { LoginPage } from"./components/api-authorization/LoginPage";
-import { RegisterPage } from"./components/api-authorization/RegisterPage";
+import {  Login } from"./components/api-authorization/Login";
+import { Register } from"./components/api-authorization/Register";
+import { RequireAuth } from "react-auth-kit";
 
 const AppRoutes = [
   
@@ -58,12 +59,12 @@ const AppRoutes = [
     element: <Admin />
   },
   {
-    path: '/LoginPage',
-    element: <LoginPage />
+    path: '/Login',
+    element: <Login />
   },
   {
-    path: '/RegisterPage',
-    element: <RegisterPage />
+    path: '/Registreer',
+    element: <Register />
   },
 ];
 
